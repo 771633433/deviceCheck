@@ -1,0 +1,14 @@
+{
+	"responseCode":1000,
+	"message":"请求成功",
+	"content":[
+		{
+			"type":"设备",
+			"label":"设备"
+		},
+		{
+			"type":"轨迹",
+			"label":"轨迹"
+		}
+	]
+}

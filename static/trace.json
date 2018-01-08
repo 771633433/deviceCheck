@@ -1,0 +1,14 @@
+{
+	"responseCode":1000,
+	"message":"请求成功",
+	"content":[
+		{
+			"gjlx":"人员轨迹",
+			"sbsl":45
+		},
+		{
+			"gjlx":"车辆轨迹",
+			"sbsl":4
+		}
+	]
+}
