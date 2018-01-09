@@ -1,7 +1,5 @@
 ## 设备查询页面
 
-> A Vue.js project
-
 ## Build Setup
 
 ``` bash
