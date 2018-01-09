@@ -57,10 +57,9 @@
         <!--  轨迹类型,  -->
         <div class="traceType">
           <ul>
-            <li class="traceStyle" v-for='(item,key) in traceList'>{{item.gjlx}}</li>
+            <li class="traceStyle" v-for='(item,key) in traceList'>{{item.gjlx}} ({{item.sbsl}})</li>
           </ul>
         </div>
-        
       </div>
     </transition>
   </div>
@@ -94,11 +93,14 @@ export default {
     closeTrace(){
       this.trace=false;
     },
+    // 切换select里面的内容时触发的事件
     checkVal(){
       // 控制台打印用户选择的类型  设备或轨迹
-      console.log(this.selectVal); 
+      //console.log(this.selectVal); 
       if (this.selectVal=='轨迹') {
         this.closeCollapse=false;
+        // 发送消息给 TabList组件,隐藏这个组件
+        bus.$emit('close-TabList');
       }else if(this.selectVal=='设备'){
         this.trace=false;
       }
@@ -143,7 +145,7 @@ export default {
           this.testArray=res.data.content;
         })
            .catch((err)=>{
-            console.log(err)
+            console.log(err);
           })
       }
      
