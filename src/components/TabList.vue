@@ -36,6 +36,12 @@ import bus from '../assets/event.js';
 		            console.log(data);
 		            this.detail=data;
 		            this.show=true
+		          });
+
+		          // 把设备切换为轨迹时,隐藏TabList
+		          bus.$on('close-TabList',()=>{
+		          	//alert('切换');
+		          	this.show=false;
 		          })
 		      },
 		      // x点击关闭 TabList
