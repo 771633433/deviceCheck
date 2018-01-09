@@ -1,6 +1,6 @@
 ### 设备查询页面
 
-## Build Setup
+#### Build Setup
 
 ``` bash
 # install dependencies
