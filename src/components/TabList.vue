@@ -9,9 +9,18 @@
 				</div>
 				<!--  上面是蓝色的长条,有一个关闭x按钮	-->
 				<div class="content">
-					{{detail}}
-				</div>
-				
+					<!--  图片和几行文字介绍	-->
+					<div class="box" v-for='(item,key,index) in src'>
+						<div class="box_img">
+							<img :class="imgClass[key]" width="100%" height="100%" :src="src[key]" @mouseover='togg(key)' />
+						</div>
+						<!--  下面两行简短的文字	-->
+						<div class="tip">
+							<li class="li0">{{location[key]}}</li>
+							<li class="li0">{{passTime[key]}}</li>
+						</div>
+					</div>
+				</div>		
 			</div>
 		</transition>
 	</div>
@@ -20,11 +29,16 @@
 <script type="text/javascript">
 import axios from 'axios';
 import bus from '../assets/event.js';
+import Magnifier from 'magnifier';
 	export default{
 		data(){
 			return{
 				show:false,
-				detail:''
+				ipUrl:'',
+				src:[],
+				location:[],
+				passTime:[],
+				imgClass:[]
 			}
 		},
 		// methods
@@ -32,10 +46,26 @@ import bus from '../assets/event.js';
 			//  bus兄弟组件传递数据
 		      receive(){
 		          bus.$on('send-to-tab',(data)=>{
-		            //console.log(data.substr(-3));
-		            console.log(data);
-		            this.detail=data;
-		            this.show=true
+		            //截取设备名称的后2位,拼接字符串,配合axios请求
+		            //console.log(data.substr(-2));
+		            this.show=true;
+		            this.ipUrl=data.substr(-2);
+		            // 请求数据,页面内展示图片,支持放大镜效果
+		            	axios.get(`../../static/${this.ipUrl}.json`)
+		            	  .then((res)=>{
+		            	  		//console.log(res.data.list);
+		            	  		// for循环push进数组
+
+		            	  		for(var i=0;i<res.data.list.length;i++){
+		            	  			this.src.push(res.data.list[i].src);
+		            	  			this.location.push(res.data.list[i].location);
+		            	  			this.passTime.push(res.data.list[i].sj);
+		            	  		}
+		            	  })
+		            	    .catch((err)=>{
+		            	    	console.log(err);
+		            	    });
+		            	    console.log(this.src);
 		          });
 
 		          // 把设备切换为轨迹时,隐藏TabList
@@ -47,18 +77,33 @@ import bus from '../assets/event.js';
 		      // x点击关闭 TabList
 		      closeTabList(){
 		      	this.show=false;
+		      },
+		      // 图片鼠标放上去有放大镜效果
+		      togg(key){
+		      	new Magnifier('.img'+key);
+		      	//console.log('长度是:'+this.src.length);
 		      }
 		},
 		// mounted
 		mounted(){
 			this.receive();
+			// 循环产生数组,配合放大镜效果,给500个数据
+			var imgs=[];
+					for(var i=0;i<500;i++){
+						imgs.push({['img'+i]:true});
+					}
+
+				var arr=[];
+					for(var k=0;k<imgs.length;k++){
+						this.imgClass.push(imgs[k]);
+					}
 		}
 	}
 </script>
 
 <style scoped>
 .tab{
-	width: 500px;
+	width: 520px;
 	height: 320px;
 	/*border: 1px solid blue;*/
 	float: right;
@@ -87,8 +132,44 @@ import bus from '../assets/event.js';
 .content{
 	width: 100%;
 	height: 300px;
+	overflow: auto;
 	border: 1px solid #c9c7c3;
 }
+
+/*	 box一个方块盒子,存放一张图片和下面几行文字介绍	*/
+.box{
+	width: 160px;
+	height: 120px;
+	/*border: 1px solid gray;*/
+	float: left;
+	margin-top: 12px;
+	margin-left: 4px;
+}
+
+/*   放置图片	*/
+.box_img{
+	width: 100%;
+	height: 90px;
+	float: left;
+}
+
+/*	 两行简短的文字 	*/
+.tip{
+	width: 100%;
+	height: 32px;
+	float: left;
+	border: 1px solid #c9c7c3;
+}
+
+.li0{
+	width: 100%;
+	height: 15px;
+	text-align: left;
+	/*border: 1px solid #c9c7c3;*/
+	float: left;
+	list-style: none;
+}
+
 
 /*  transition 过渡动画  */
 .fade-enter-active, .fade-leave-active {
