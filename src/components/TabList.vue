@@ -50,17 +50,20 @@ import Magnifier from 'magnifier';
 		            //console.log(data.substr(-2));
 		            this.show=true;
 		            this.ipUrl=data.substr(-2);
-		            // 请求数据,页面内展示图片,支持放大镜效果
+		            // 请求数据第一页,页面内展示图片,支持放大镜效果
 		            	axios.get(`../../static/${this.ipUrl}.json`)
 		            	  .then((res)=>{
 		            	  		//console.log(res.data.list);
 		            	  		// for循环push进数组
 
-		            	  		for(var i=0;i<res.data.list.length;i++){
-		            	  			this.src.push(res.data.list[i].src);
-		            	  			this.location.push(res.data.list[i].location);
-		            	  			this.passTime.push(res.data.list[i].sj);
-		            	  		}
+		            	  		// 做个判断只push一次,再次点击的时候不push
+		            	  		if(this.src.length==0){
+									for(var i=0;i<res.data.list.length;i++){
+			            	  			this.src.push(res.data.list[i].src);
+			            	  			this.location.push(res.data.list[i].location);
+			            	  			this.passTime.push(res.data.list[i].sj);
+			            	  		}
+		            	  		}	
 		            	  })
 		            	    .catch((err)=>{
 		            	    	console.log(err);
