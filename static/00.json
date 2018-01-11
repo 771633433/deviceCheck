@@ -1,0 +1,26 @@
+{
+	"responseCode":1000,
+	"message":"请求成功",
+	"list":[
+		{
+			"src":"../src/assets/images/1.jpg",
+			"location":"西直门大街",
+			"sj":"2017-11-03 06:23:54"
+		},
+		{
+			"src":"../src/assets/images/2.jpg",
+			"location":"西直门大街",
+			"sj":"2017-11-03 07:14:33"
+		},
+		{
+			"src":"../src/assets/images/3.jpg",
+			"location":"西直门大街",
+			"sj":"2017-11-03 07:22:34"
+		},
+		{
+			"src":"../src/assets/images/4.jpg",
+			"location":"西直门大街",
+			"sj":"2017-11-03 07:35:21"
+		}
+	]
+}
