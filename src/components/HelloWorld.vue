@@ -6,25 +6,12 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Search from './Search';
 import TabList from './TabList';
 export default {
   name: 'HelloWorld',
   components:{
     Search,TabList
-  },
-  data () {
-    return {
-      
-    }
-  },
-  methods:{
-    
-   
-  },
-  created(){
-    
   }
 }
 </script>
