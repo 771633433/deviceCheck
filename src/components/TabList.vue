@@ -1,36 +1,42 @@
 <template>
 	<div>
-		<transition name='fade'>
-			<div class="tab" v-if='show'>
-				<div class="closeBar">
-					<div class="close-icon" @click='closeTabList'>
-						<Icon type='close' size='14' color='#fff' style='line-height:28px;' />
+		<dialog-drag @close='shut' v-if='togg' :buttonPin='pin'>
+			<transition name='fade'>
+				<div class="tab" v-if='show'>
+					<div class="closeBar">
+						<div class="close-icon" @click='closeTabList'>
+							<Icon type='close' size='14' color='#fff' style='line-height:28px;' />
+						</div>
 					</div>
+					<!--  上面是蓝色的长条,有一个关闭x按钮	-->
+					<div class="content">
+						<!--  图片和几行文字介绍	-->
+						<div class="box" v-for='(item,key,index) in src'>
+							<div class="box_img">
+								<img :class="imgClass[key]" width="100%" height="100%" :src="src[key]" @mouseover='toggEvent(key)' />
+							</div>
+							<!--  下面两行简短的文字	-->
+							<div class="tip">
+								<li class="li0">{{location[key]}}</li>
+								<li class="li0">{{passTime[key]}}</li>
+							</div>
+						</div>
+					</div>		
 				</div>
-				<!--  上面是蓝色的长条,有一个关闭x按钮	-->
-				<div class="content">
-					<!--  图片和几行文字介绍	-->
-					<div class="box" v-for='(item,key,index) in src'>
-						<div class="box_img">
-							<img :class="imgClass[key]" width="100%" height="100%" :src="src[key]" @mouseover='togg(key)' />
-						</div>
-						<!--  下面两行简短的文字	-->
-						<div class="tip">
-							<li class="li0">{{location[key]}}</li>
-							<li class="li0">{{passTime[key]}}</li>
-						</div>
-					</div>
-				</div>		
-			</div>
-		</transition>
+			</transition>
+		</dialog-drag>
 	</div>
 </template>
 
 <script type="text/javascript">
 import axios from 'axios';
+import DialogDrag from 'vue-dialog-drag';
 import bus from '../assets/event.js';
 import Magnifier from 'magnifier';
 	export default{
+		components:{
+			DialogDrag
+		},
 		data(){
 			return{
 				show:false,
@@ -38,7 +44,9 @@ import Magnifier from 'magnifier';
 				src:[],
 				location:[],
 				passTime:[],
-				imgClass:[]
+				imgClass:[],
+				togg:false,
+				pin:false
 			}
 		},
 		// methods
@@ -49,6 +57,7 @@ import Magnifier from 'magnifier';
 		            //截取设备名称的后2位,拼接字符串,配合axios请求
 		            //console.log(data.substr(-2));
 		            this.show=true;
+		            this.togg=true;
 		            this.ipUrl=data.substr(-2);
 		            // 请求数据第一页,页面内展示图片,支持放大镜效果
 		            	axios.get(`../../static/${this.ipUrl}.json`)
@@ -82,36 +91,39 @@ import Magnifier from 'magnifier';
 		      	this.show=false;
 		      },
 		      // 图片鼠标放上去有放大镜效果
-		      togg(key){
+		      toggEvent(key){
 		      	new Magnifier('.img'+key);
 		      	//console.log('长度是:'+this.src.length);
-		      }
+		      },
+		      shut(){
+     		 	//alert('关闭！');
+     		 	this.togg=false
+     		 }
 		},
 		// mounted
 		mounted(){
 			this.receive();
 			// 循环产生数组,配合放大镜效果,给500个数据
 			var imgs=[];
-					for(var i=0;i<500;i++){
-						imgs.push({['img'+i]:true});
-					}
+				for(var i=0;i<500;i++){
+					imgs.push({['img'+i]:true});
+				}
 
-				var arr=[];
-					for(var k=0;k<imgs.length;k++){
-						this.imgClass.push(imgs[k]);
-					}
+			var arr=[];
+				for(var k=0;k<imgs.length;k++){
+					this.imgClass.push(imgs[k]);
+				}
 		}
 	}
 </script>
 
 <style scoped>
 .tab{
-	width: 520px;
-	height: 320px;
-	/*border: 1px solid blue;*/
+	width: 540px;
+	height: 340px;
 	float: right;
 	margin-top: 0px;
-	margin-right: 20px;
+	margin-right: 0px;
 }
 
 /*  上面的关闭按钮,点击后关闭TabList  */
@@ -145,8 +157,8 @@ import Magnifier from 'magnifier';
 	height: 120px;
 	/*border: 1px solid gray;*/
 	float: left;
-	margin-top: 12px;
-	margin-left: 4px;
+	margin-top: 24px;
+	margin-left: 10px;
 }
 
 /*   放置图片	*/
@@ -182,3 +194,12 @@ import Magnifier from 'magnifier';
   opacity: 0
 }
 </style>
+
+
+<style src="vue-dialog-drag/dist/vue-dialog-drag.css"></style>
+
+<!-- optional dialog styles, see example -->
+<style src="vue-dialog-drag/dist/dialog-styles.css"></style>
+
+
+
