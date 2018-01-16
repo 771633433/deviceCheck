@@ -31,7 +31,7 @@
               </li>
               <!--  上面的li是写死的  -->
               <!--  下面的li用v-for循环写出  -->
-              <li class="liStyle" v-for="(item,key,index) in testArray" :class="[key%2==1?activeClass:liStyle]" @click='addClass(key)'>
+              <li class="liStyle" v-for="(item,key,index) in testArray" :class="[key%2==1?activeClass:liStyle,liClass[key]]"  @click='addClass(key)'>
                 <p class="p_li">{{key+1}}</p>
                 <p class="p_li">
                   <!--  多选框与checkNames实现了双向绑定,返回数组,数组中是选中的  -->
@@ -70,6 +70,7 @@ import axios from 'axios';
 import bus from '../assets/event.js'
 export default {
   name: 'HelloWorld',
+  props:['warnText'],
   data () {
     return {
       closeCollapse:false,
@@ -82,7 +83,8 @@ export default {
       traceList:[],
       liStyle:true,
       activeClass:'classObj',
-      checkNames:[]
+      checkNames:[],
+      liClass:[]
     }
   },
   methods:{
@@ -153,6 +155,13 @@ export default {
     // 点击每个具体的li,右边显示详情
     addClass(key){
       //console.log(key);
+      this.liClass.push('');
+      this.liClass[key]='myliClass';
+      for(let i=0;i<=key;i++){
+        if(i!=key){
+          this.liClass[i]=''
+        }
+      }
       bus.$emit('send-to-tab',this.testArray[key].sbmc);
     }
   },
@@ -166,6 +175,10 @@ export default {
       .catch((err)=>{
         console.log(err);
       })
+  },
+  // 添加class
+  mounted(){
+    
   }
 }
 </script>
@@ -352,6 +365,12 @@ a {
 }
 
 
+.myliClass{
+  background: #284e8d;
+  color: #fff;
+}
+
+
 /*  transition 过渡动画  */
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
@@ -360,6 +379,3 @@ a {
   opacity: 0
 }
 </style>
-
-
-
