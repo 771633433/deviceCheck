@@ -195,11 +195,3 @@ import Magnifier from 'magnifier';
 }
 </style>
 
-
-<style src="vue-dialog-drag/dist/vue-dialog-drag.css"></style>
-
-<!-- optional dialog styles, see example -->
-<style src="vue-dialog-drag/dist/dialog-styles.css"></style>
-
-
-
