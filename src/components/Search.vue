@@ -157,7 +157,7 @@ export default {
       //console.log(key);
       this.liClass.push('');
       this.liClass[key]='myliClass';
-      for(let i=0;i<=key;i++){
+      for(let i=0;i<this.testArray.length;i++){
         if(i!=key){
           this.liClass[i]=''
         }
