@@ -1,0 +1,19 @@
+.dialog-drag{
+	z-index:101;
+	position:relative;
+	margin-right: 20px;
+	top: 0px;
+	background-color:#fff;
+	box-shadow:1px 1px 1px rgba(0,0,0,.5);
+	-webkit-animation-duration:.2s;
+	animation-duration:.2s;
+	-webkit-animation-name:dialog-anim;
+	animation-name:dialog-anim;
+	-webkit-animation-timing-function:ease-in;
+	animation-timing-function:ease-in
+}
+
+
+.dialog-header{
+	height: 0;
+}

@@ -1,0 +1,15 @@
+.dialog-1.dialog-drag{
+	background-color:#fff;
+	box-shadow:1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.pin{
+	display: none;
+}
+
+.close{
+	width: 0px;
+	height: 0px;
+	display: none;
+
+}
